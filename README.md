@@ -16,22 +16,15 @@ Alpha camp My Movie List 專案
 />
 ```
 
-在 `<body></body>` 最末端引入下方內容
+在 `<body></body>` 最末端引入下方內容，在 Bootstrap Bundle 的 JS 裡，包含了 Popper.js、和 Bootstrap.js ，因此不需要另外載入 Popper.js
 
 ```html
-<script
-    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"
-></script>
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-    crossorigin="anonymous"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 ```
 
-## 導入 axios
+## 導入 axios 套件
 
 在 `<body></body>` 最末端引入下方內容
 

@@ -1,11 +1,8 @@
 const BASE_URL = "https://webdev.alphacamp.io";
 const API_URL = `${BASE_URL}/api/movies`;
 const POSTER_URL = `${BASE_URL}/posters`;
-const movies = [];
-
+const movies = JSON.parse(localStorage.getItem("favorite-movies")) ?? [];
 const dataPanel = document.querySelector("#data-panel");
-const searchForm = document.querySelector("#search-form");
-const searchInput = document.querySelector("#serach-input");
 
 function renderMovie(data) {
   let src = `${POSTER_URL}/${data.image}`;
@@ -19,7 +16,7 @@ function renderMovie(data) {
         </div>
         <div class="card-footer">
           <button class="btn btn-primary btn-show-movie" data-bs-toggle="modal" data-bs-target="#movie-modal" data-id="${data.id}">More</button>
-          <button class="btn btn-info btn-add-favorite" data-id="${data.id}">+</button>
+          <button class="btn btn-danger btn-remove-favorite" data-id="${data.id}">X</button>
         </div>
       </div>
     </div>`;
@@ -40,55 +37,25 @@ function showMovieModal(id) {
   });
 }
 
-function addToFavorite(id) {
-  const favorites = JSON.parse(localStorage.getItem("favorite-movies")) ?? [];
-  console.log(`favorites: ${favorites}`);
-  const movie = movies.find((m) => m.id === id);
-  if (!favorites.some((m) => m.id === id)) {
-    favorites.push(movie);
-    localStorage.setItem("favorite-movies", JSON.stringify(favorites));
-  }
+function removeFromFavorite(id) {
+  let index = movies.findIndex((m) => m.id === id);
+  movies.splice(index, 1);
+  localStorage.setItem("favorite-movies", JSON.stringify(movies));
+  dataPanel.innerHTML = "";
+  movies.forEach((movie) => {
+    renderMovie(movie);
+  });
 }
 
 // 監聽 data panel
 dataPanel.addEventListener("click", function onPanelClicked(event) {
   if (event.target.matches(".btn-show-movie")) {
     showMovieModal((id = Number(event.target.dataset.id)));
-  } else if (event.target.matches(".btn-add-favorite")) {
-    addToFavorite(Number(event.target.dataset.id));
+  } else if (event.target.matches(".btn-remove-favorite")) {
+    removeFromFavorite(Number(event.target.dataset.id));
   }
 });
 
-searchForm.addEventListener("submit", function onSearch(event) {
-  // 避免表單提交後的預設行為(重整頁面)
-  event.preventDefault();
-  let input = searchInput.value.trim().toLowerCase();
-  let filtedMovies = movies.filter((movie) => {
-    return movie.title.toLowerCase().includes(input);
-  });
-
-  if (filtedMovies.length === 0) {
-    movies.forEach((movie) => {
-      renderMovie(movie);
-    });
-    alert(`Cannot find movies with keyword: ${input}`);
-  } else {
-    dataPanel.innerHTML = "";
-    filtedMovies.forEach((movie) => {
-      renderMovie(movie);
-    });
-  }
+movies.forEach((movie) => {
+  renderMovie(movie);
 });
-
-axios
-  .get(API_URL)
-  .then((response) => {
-    let results = response.data.results;
-    movies.push(...results);
-    movies.forEach((movie) => {
-      renderMovie(movie);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });

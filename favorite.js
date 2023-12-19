@@ -1,6 +1,7 @@
 const BASE_URL = "https://webdev.alphacamp.io";
 const API_URL = `${BASE_URL}/api/movies`;
 const POSTER_URL = `${BASE_URL}/posters`;
+const MOVIES_PER_PAGE = 12;
 const movies = JSON.parse(localStorage.getItem("favorite-movies")) ?? [];
 const dataPanel = document.querySelector("#data-panel");
 

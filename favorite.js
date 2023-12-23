@@ -48,15 +48,19 @@ function removeFromFavorite(id) {
   });
 }
 
-// 監聽 data panel
-dataPanel.addEventListener("click", function onPanelClicked(event) {
-  if (event.target.matches(".btn-show-movie")) {
-    showMovieModal((id = Number(event.target.dataset.id)));
-  } else if (event.target.matches(".btn-remove-favorite")) {
-    removeFromFavorite(Number(event.target.dataset.id));
-  }
-});
+function init() {
+  // 監聽 data panel
+  dataPanel.addEventListener("click", function onPanelClicked(event) {
+    if (event.target.matches(".btn-show-movie")) {
+      showMovieModal((id = Number(event.target.dataset.id)));
+    } else if (event.target.matches(".btn-remove-favorite")) {
+      removeFromFavorite(Number(event.target.dataset.id));
+    }
+  });
 
-movies.forEach((movie) => {
-  renderMovie(movie);
-});
+  movies.forEach((movie) => {
+    renderMovie(movie);
+  });
+}
+
+init();
